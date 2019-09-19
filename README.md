@@ -1,0 +1,1 @@
+echo "# newBoutique-symfony"
