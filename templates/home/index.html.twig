@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur notre boutique
+{% endblock %}
+
+{% block body %}
+    {% for category in categories if category.parent is not null %}
+        <h2>{{ category.parent.title }}
+            -
+            {{ category.title }}
+        </h2>
+        <div class="row">
+            {% for product in category.products if product.featured %}
+                <div class="col-4">
+                    <div class="alert alert-light">
+                        <h4 class="alert-title">{{product.title}}
+                            <span class="badge badge-dark">
+                                {{product.price}}
+                                €
+                            </span>
+                        </h4>
+                        <img src="{{product.picture}}" alt="Image de {{product.title}}" class="img-fluid">
+
+                        <h4 class="alert-title">{{product.title}}</h4>
+                        {{ product.introduction }}
+
+                        <hr>
+                        <a href="#" class="btn btn-primary text-white btn-sm ">
+                            <i class="fas fa-search mr-1"></i>
+                            Détails
+                        </a>
+                        <a href="#" class="btn btn-success text-white btn-sm">
+                            <i class="fas fa-shopping-cart mr-1"></i>
+                            Ajouter
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}
