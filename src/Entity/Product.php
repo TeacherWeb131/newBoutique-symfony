@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,6 +52,16 @@ class Product
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $featured;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommandProduct", mappedBy="product")
+     */
+    private $commandProducts;
+
+    public function __construct()
+    {
+        $this->commandProducts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -136,6 +148,37 @@ class Product
     public function setFeatured(?bool $featured): self
     {
         $this->featured = $featured;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommandProduct[]
+     */
+    public function getCommandProducts(): Collection
+    {
+        return $this->commandProducts;
+    }
+
+    public function addCommand(CommandProduct $commandProduct): self
+    {
+        if (!$this->commandProducts->contains($commandProduct)) {
+            $this->commandProducts[] = $commandProduct;
+            $commandProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommand(CommandProduct $commandProduct): self
+    {
+        if ($this->commandProducts->contains($commandProduct)) {
+            $this->commandProducts->removeElement($commandProduct);
+            // set the owning side to null (unless already changed)
+            if ($commandProduct->getProduct() === $this) {
+                $commandProduct->setProduct(null);
+            }
+        }
 
         return $this;
     }

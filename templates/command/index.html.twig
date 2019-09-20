@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CommandController!
+{% endblock %}
+
+{% block body %}
+    <div class="alert alert-light">
+        <h2 class="alert-title">Etape 1 : Adresse de livraison</h2>
+    </div>
+
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+
+    <button class="btn btn-success">Continuer vers le paiement</button>
+
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="alert alert-light">
+        <h2 class="alert-title">Paiement de la commande</h2>
+    </div>
+
+    <p>
+        <strong>
+            Livraison à :
+        </strong>
+        {{ address }}
+    </p>
+
+
+    <input type="text" placeholder="Votre numéro de carte">
+
+    <a href="{{ path('command_process') }}" class="btn btn-success">Payer
+        {{ total | price }}
+    </a>
+
+{% endblock %}

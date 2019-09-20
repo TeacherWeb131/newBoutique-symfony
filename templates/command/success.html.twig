@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="alert alert-success">
+        <h2 class="alert-title">Bravo, la commande est validée !</h2>
+
+        <p>
+            Elle sera livrée à :
+            {{ commande.address }}
+        </p>
+    </div>
+{% endblock %}

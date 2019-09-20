@@ -3,6 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Command;
+use App\Entity\CommandProduct;
 use App\Entity\Product;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -24,6 +26,8 @@ class AppFixtures extends Fixture
             "High-tech" => ["Ordinateurs", "Matériel", "Audio"],
             "Geekeries" => ["Habits", "Goodies"],
         ];
+
+        $products = [];
 
         // Une Category est parent d'une subCategory enfant
         foreach ($categoryTitles as $title => $subTitles) {
@@ -51,9 +55,36 @@ class AppFixtures extends Fixture
                         ->setCategory($subCategory);
 
                     $manager->persist($product);
+
+                    $products[] = $product;
                 }
             }
         }
+
+        // Créations de commandes
+        // Créer le champ createdAt (dateTime) dans l'entité Command
+        for ($c = 0; $c < 10; $c++) {
+            $command = new Command();
+            $command->setAddress($faker->address)
+                ->setCreatedAt($faker->dateTimeBetween("-6 months"));
+
+            $manager->persist($command);
+
+            // Faire les liens avec les Product (relation Command OneToMany Product)
+            $randomProducts = $faker->randomElements($products, 4);
+
+            foreach ($randomProducts as $product) {
+                $commandProduct = new CommandProduct();
+                $commandProduct->setProduct($product)
+                    ->setCommand($command)
+                    ->setQuantity(mt_rand(1, 3));
+
+                // $command->addCommandProduct($commandProduct);
+
+                $manager->persist($commandProduct);
+            }
+        }
+
         $manager->flush();
     }
 }
