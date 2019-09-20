@@ -5,6 +5,7 @@
 
 {% block body %}
     <div class="alert alert-light">
+        <a href="{{ path('cart_empty') }}" class="btn btn-danger text-white float-right">Vider le panier</a>
         <h2 class="alert-title">Mon panier</h2>
     </div>
 
@@ -24,11 +25,12 @@
                 <tr>
                     <td>{{ item.product.title }}</td>
                     <td class="text-center">{{ item.product.price | price }}</td>
-
                     <td class="text-center">{{ item.quantity }}</td>
                     <td class="text-center">{{ item.total | price }}</td>
                     <td>
-                        <a href="#" class="btn btn-danger btn-sm">Supprimer</a>
+                        <a href="{{ path('cart_remove', {'id': item.product.id}) }}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
