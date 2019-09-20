@@ -36,6 +36,11 @@ class CartController extends AbstractController
     {
         $cartService->add($product);
 
+        $this->addFlash(
+            'success',
+            "Le produit <strong>{$product->getTitle()}</strong> a bien été rajouté au panier !"
+        );
+
         return $this->redirectToRoute("cart_index");
     }
 
@@ -45,6 +50,11 @@ class CartController extends AbstractController
     public function remove(Product $product, CartService $cartService)
     {
         $cartService->remove($product);
+
+        $this->addFlash(
+            'success',
+            "Le produit <strong>{$product->getTitle()}</strong> a bien été supprimé du panier !"
+        );
 
         return $this->redirectToRoute("cart_index");
     }
@@ -57,6 +67,11 @@ class CartController extends AbstractController
     {
         // Vider le panier (nécessite l'accès à la Session)
         $cartService->empty();
+
+        $this->addFlash(
+            'success',
+            "Le panier a bien été vidé !"
+        );
 
         return $this->redirectToRoute("home");
     }
