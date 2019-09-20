@@ -71,4 +71,18 @@ class Cart
         unset($this->items[$productId]);
         return $this;
     }
+
+    public function getTotal(): float
+    {
+        return (float) array_reduce($this->items, function (float $total, CartItem $item) {
+            return $total += $item->getTotal();
+        }, 0);
+
+        // Ci-dessus est équivalent à ci-dessous:
+        // $total = 0;
+        // foreach ($this->items as $cartItem) {
+        //     $total += $cartItem->getTotal();
+        // }
+        // return $total;
+    }
 }

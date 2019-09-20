@@ -51,4 +51,9 @@ class CartItem
         $this->quantity++;
         return $this;
     }
+
+    public function getTotal(): float
+    {
+        return $this->product->getPrice() * $this->quantity;
+    }
 }

@@ -10,13 +10,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class CartController extends AbstractController
 {
     /**
+     * @Route("/cart", name="cart_index")
+     */
+    public function index(CartService $cartService)
+    {
+        // $items est un tableau d'objets CartItem qui possèdent des méthodes
+        $items = $cartService->getItems();
+        $total = $cartService->getTotal();
+        $shipping = $cartService->getShipping();
+        $grandTotal = $cartService->getGrandTotal();
+
+        return $this->render('cart/index.html.twig', [
+            "items" => $items,
+            "total" => $total,
+            "shipping" => $shipping,
+            "grandTotal" => $grandTotal
+        ]);
+    }
+
+    /**
      * @Route("/cart/add/{id}", name="cart_add")
      *
      */
     public function add(Product $product, CartService $cartService)
     {
         $cartService->add($product);
-        dd($cartService->getItems());
+
+        return $this->redirectToRoute("cart_index");
     }
 
     /**
@@ -25,7 +45,8 @@ class CartController extends AbstractController
     public function remove(Product $product, CartService $cartService)
     {
         $cartService->remove($product);
-        dd($cartService->getItems());
+
+        return $this->redirectToRoute("cart_index");
     }
 
     /**
@@ -36,6 +57,7 @@ class CartController extends AbstractController
     {
         // Vider le panier (nécessite l'accès à la Session)
         $cartService->empty();
-        dd($cartService->getItems());
+
+        return $this->redirectToRoute("home");
     }
 }
