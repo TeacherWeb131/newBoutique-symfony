@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home
+                <a class="nav-link" href="{{ path('home') }}">Home
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
@@ -31,7 +31,7 @@
         </ul>
         <a href="{{ path('cart_index') }}" class="btn btn-success mr-1">
             Panier
-            <span class="badge badge-secondary badfe-pill">3</span>
+            {{ render(controller('App\\Controller\\CartController::counter')) }}
         </a>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search">

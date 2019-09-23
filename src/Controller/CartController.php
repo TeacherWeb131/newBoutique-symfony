@@ -75,4 +75,19 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute("home");
     }
+
+
+    public function counter(CartService $cartService)
+    {
+        $total = 0;
+        foreach ($cartService->getItems() as $item) {
+            $total += $item->getQuantity();
+        }
+        return $this->render(
+            'cart/counter.html.twig',
+            [
+                'total' => $total
+            ]
+        );
+    }
 }

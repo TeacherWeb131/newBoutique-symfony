@@ -25,7 +25,7 @@
                         {{ product.introduction }}
 
                         <hr>
-                        <a href="#" class="btn btn-primary text-white btn-sm ">
+                        <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-primary text-white btn-sm ">
                             <i class="fas fa-search mr-1"></i>
                             Détails
                         </a>

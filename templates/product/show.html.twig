@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product
+{% endblock %}
+
+{% block body %}
+    <h1>{{ product.title }}</h1>
+    <img src="{{ product.picture }}" alt="">
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Introduction</th>
+                <td>{{ introduction | markdown }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ description | markdown }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ product.price | price }}</td>
+            </tr>
+            <tr>
+                <th>Produit vedette</th>
+                <td>{{ product.featured ? 'Oui' : 'Non' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('cart_add', {'id': product.id}) }}" class="btn btn-success text-white btn-sm mb-5">
+        <i class="fas fa-shopping-cart mr-1"></i>
+        Ajouter
+    </a>
+
+
+    {# <a href="{{ path('product_index') }}">back to list</a> #}
+
+{# <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a> #}
+
+    {# {{ include('product/_delete_form.html.twig') }} #}
+{% endblock %}
