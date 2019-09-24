@@ -19,6 +19,8 @@ use Symfony\Contracts\Cache\ItemInterface;
  */
 class ProductController extends AbstractController
 {
+
+
     /**
      * @Route("/", name="product_index", methods={"GET"})
      */
@@ -53,7 +55,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="product_show", methods={"GET"})
+     * @Route("/{id}", name="product_show", methods={"GET"}, requirements={"id": "\d+"})
      */
     public function show(Product $product, MarkdownCacheHelper $helper)
     {
@@ -99,5 +101,22 @@ class ProductController extends AbstractController
         }
 
         return $this->redirectToRoute('product_index');
+    }
+
+    /**
+     * @Route("/search", name="product_search")
+     */
+    public function search(Request $request, ProductRepository $productRepository)
+    {
+        $search = $request->query->get('search', null);
+
+        if ($search) {
+            $resultats = $productRepository->findBySearch($search);
+        }
+
+        return $this->render('product/search.html.twig', [
+            'search' => $search,
+            'resultats' => $resultats
+        ]);
     }
 }

@@ -2,17 +2,22 @@
 
 namespace App\Controller;
 
-use App\Cart\CartService;
 use App\Entity\Command;
-use App\Entity\CommandProduct;
+use App\Cart\CartService;
 use App\Form\AddressType;
+use App\Entity\CommandProduct;
 use App\Repository\ProductRepository;
-use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Security;
 
+/**
+ * @IsGranted("ROLE_USER")
+ */
 class CommandController extends AbstractController
 {
     /**
@@ -20,6 +25,9 @@ class CommandController extends AbstractController
      */
     public function index(Request $request, SessionInterface $session)
     {
+        // Equivalent de l'annotation IsGranted("ROLE_USER")
+        // $this->denyAccessUnlessGranted('ROLE_USER');
+
         $form = $this->createForm(AddressType::class);
 
         $form->handleRequest($request);
@@ -75,12 +83,19 @@ class CommandController extends AbstractController
     /**
      * @Route("/process", name="command_process")
      */
-    public function process(SessionInterface $session, CartService $cartService, ObjectManager $manager, ProductRepository $repo)
-    {
+    public function process(
+        SessionInterface $session,
+        CartService $cartService,
+        ObjectManager $manager,
+        ProductRepository $repo,
+        Security $security
+    ) {
         // Je crée une commande avec sa date et son adresse
         $commande = new Command();
         $commande->setCreatedAt(new \DateTime())
-            ->setAddress($session->get('command-address'));
+            ->setAddress($session->get('command-address'))
+            // Security permet de récupérer le User dans un controller
+            ->setUser($security->getUser());
 
         $manager->persist($commande);
 

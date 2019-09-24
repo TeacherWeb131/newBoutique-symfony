@@ -22,19 +22,26 @@
             </li>
         </ul>
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#" class="nav-link">Inscription</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Connexion</a>
-            </li>
+            {% if not is_granted('ROLE_USER') %}
+                <li class="nav-item">
+                    <a href="{{ path('register') }}" class="btn btn-warning mr-1">Inscription</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('login') }}" class="btn btn-success mr-1">Connexion</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a href="{{ path('logout') }}" class="btn btn-danger mr-1">Déconnexion</a>
+                </li>
+            {% endif %}
         </ul>
         <a href="{{ path('cart_index') }}" class="btn btn-success mr-1">
             Panier
             {{ render(controller('App\\Controller\\CartController::counter')) }}
         </a>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <form action="{{ path('product_search') }}" class="form-inline my-2 my-lg-0">
+
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search">
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>

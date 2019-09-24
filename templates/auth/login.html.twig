@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AuthController!
+{% endblock %}
+
+{% block body %}
+    <div class="alert alert-light">
+        <h1 class="alert-title ">Connexion au site</h1>
+    </div>
+    <form method="post">
+        <div class="form-group">
+            <input type="email" class="form-control" placeholder="Adresse Email" name="_username">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Mot de passe" name="_password">
+        </div>
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-lock-o"></i>
+            Connexion
+        </button>
+
+    </form>
+{% endblock %}
